@@ -1,4 +1,4 @@
-/*Initialise 2 values then swap and display them.
+/*Initialise Temp. in Fahrenheit and convert it into Celsius.
 Mayank Mohanty 25BCSG88 Section A1 Roll No.11*/
 #include<stdio.h>
 int main()
