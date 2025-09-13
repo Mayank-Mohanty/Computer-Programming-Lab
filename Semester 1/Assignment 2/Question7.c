@@ -9,7 +9,7 @@ int main()
     scanf("%f%f",&x1,&y1);
     printf("\nEnter (x2,y2): ");
     scanf("%f%f",&x2,&y2);
-    dis = sqrt(pow(x2-x1,2)+pow(y2-y1,2));
+    dis=sqrt(pow(x2-x1,2)+pow(y2-y1,2));
     printf("\nDistance between (%f,%f) and (%f,%f)=%f",x1,y1,x2,y2,dis);
     return 0;
 }

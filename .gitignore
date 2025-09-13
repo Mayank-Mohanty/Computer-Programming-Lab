@@ -1,0 +1,15 @@
+# Ignore compiled programs
+*.exe
+*.out
+
+# Ignore object files
+*.o
+
+# Ignore VS Code config (optional)
+.vscode/
+
+# Ignore backup files
+*~
+
+# Ignore compiled binaries in 'bin' folder
+/bin/
