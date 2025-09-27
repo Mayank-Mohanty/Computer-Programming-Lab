@@ -3,22 +3,22 @@ Mayank Mohanty 25BCSG88 Section A1 Roll No.11*/
 #include<stdio.h>
 int main() 
 {
-    float amount,dis,payable;
+    float amt,dis,pay;
     printf("\nEnter total purchase amount: ");
-    scanf("%f",&amount);
-    if (amount<1000)
+    scanf("%f",&amt);
+    if (amt<1000)
         dis=0;
-    else if (amount<=3000)
-        dis=amount*0.05;
-    else if (amount<=6000)
-        dis=amount*0.07;
-    else if (amount<=10000)
-        dis=amount*0.1;
+    else if (amt<=3000)
+        dis=amt*0.05;
+    else if (amt<=6000)
+        dis=amt*0.07;
+    else if (amt<=10000)
+        dis=amt*0.1;
     else
         dis=2000;
-    payable=amount-dis;
-    printf("\nTotal Purchase Amount: %.2f",amount);
+    pay=amt-dis;
+    printf("\nTotal Purchase Amount: %.2f",amt);
     printf("\nDiscount Applied: %.2f",dis);
-    printf("\nAmount Payable: %.2f",payable);
+    printf("\nAmount Payable: %.2f",pay);
     return 0;
 }

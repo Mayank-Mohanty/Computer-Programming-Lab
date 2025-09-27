@@ -5,7 +5,7 @@ int main()
 {
     char type;
     float hours,charge;
-    printf("\nEnter vehicle type (H for Heavy, L for Light): ");
+    printf("\nEnter vehicle type (H-Heavy,L-Light): ");
     scanf("%c",&type);
     printf("\nEnter number of hours parked: ");
     scanf("%f",&hours);
