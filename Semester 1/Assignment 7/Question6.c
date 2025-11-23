@@ -11,14 +11,14 @@ int main()
     {
         if(str[i]==' ')
             spaces++;
-        else if(str[i]=='.' || str[i]==',' || str[i]=='!' || str[i]=='?' || str[i]==';' || str[i]==':')
+        else if((str[i]>=33 && str[i]<=47) || (str[i]>=58 && str[i]<=64) || (str[i]>=91 && str[i]<=96) || (str[i]>=123 && str[i]<=126))
             punc++;
     }
-    if(str[0]!=' ' && str[0]!='\n')
-        words=1;
-    for(i=0;str[i]!='\0';i++)
-        if(str[i]==' ' && str[i+1]!=' ' && str[i+1]!='\0' && str[i+1]!='\n')
+    for (i=0;str[i]!='\0';i++)
+    {
+        if ((str[i]!=' ') && (i==0 || str[i-1]==' '))
             words++;
+    }
     printf("\nWords=%d",words);
     printf("\nSpaces=%d",spaces);
     printf("\nPunctuations=%d",punc);
