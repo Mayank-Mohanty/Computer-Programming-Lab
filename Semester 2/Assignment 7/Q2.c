@@ -1,4 +1,4 @@
-/*WAP to create a single linked list and then traverse it.
+/*WAMDP for single linked list.
  Mayank Mohanty 25BCSG88 Section A1 11*/
 #include<stdio.h>
 #include<malloc.h>

@@ -56,7 +56,7 @@ void createlist(struct node*link)
 	while (ch!='N')
 	{
 		link->next=(struct node*)malloc(sizeof(struct node));
-		if (link->next==NULL)\
+		if (link->next==NULL)
 		{
 			printf("\nOut of memory\n");
 			return ;
