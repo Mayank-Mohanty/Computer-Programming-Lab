@@ -91,7 +91,7 @@ void createlist(struct node *link)
 			printf("\nOut of memory\n");
 			return ;
 		}
-		link=link->next;	
+		link=link->next;
 		printf("\nEnter element for node %d: ",i);
 		scanf("%d",&link->info);
 		link->next=mlink;
@@ -175,7 +175,7 @@ void delete_end(struct node *link)
 {
 	struct node *mlink,*temp;
 	mlink=link;
-	if (link->next==NULL)
+	if (link->next==mlink)
 	{
 		newstart=NULL;
 		free(link);
@@ -208,7 +208,8 @@ void delete_loc(struct node *link)
 			link=link->next;
 		link->next=mlink->next;
 	        newstart=mlink->next;
-	        free(mlink);	
+	        free(mlink);
+			return ;	
 	}
 	while (i<LOC)
 	{
