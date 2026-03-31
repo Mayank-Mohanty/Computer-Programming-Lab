@@ -59,7 +59,7 @@ QUEUE INSERT(QUEUE FRONT,QUEUE REAR,int item)
     {
         return temp;
     }
-    REAR->next = temp;
+    REAR->next=temp;
     return temp;
 }
 QUEUE DELETE(QUEUE FRONT, QUEUE REAR)
@@ -71,7 +71,7 @@ QUEUE DELETE(QUEUE FRONT, QUEUE REAR)
         return FRONT;
     }
     temp=FRONT;
-    printf("\nDeleted element is %d", FRONT->info);
+    printf("\nDeleted element is %d",FRONT->info);
     FRONT=FRONT->next;
     free(temp);
     return FRONT;
@@ -86,7 +86,7 @@ void TRAVERSE(QUEUE FRONT)
     printf("\nQueue elements are: ");
     while (FRONT!=NULL)
     {
-        printf("%d ", FRONT->info);
+        printf("%d ",FRONT->info);
         FRONT=FRONT->next;
     }
 }
