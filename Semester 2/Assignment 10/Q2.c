@@ -1,3 +1,5 @@
+/*WAP to represent a polynomial using linked list.
+Mayank Mohanty 25BCSG88 Section A1 11*/
 #include<stdio.h>
 #include<stdlib.h>
 struct node 
