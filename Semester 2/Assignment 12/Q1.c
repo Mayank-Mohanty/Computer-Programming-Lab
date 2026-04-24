@@ -1,20 +1,18 @@
 /*WAP to implement Merge Sort.
  Mayank Mohanty 25BCSG88 Section A1 11*/
 #include<stdio.h>
+void INPUT(int[],int);
+void OUTPUT(int[],int);
 void MERGE_SORT(int[],int,int);
 void MERGE(int[],int,int,int);
 int main()
 {
-    int a[100],size,i;
+    int a[100],size;
     printf("\nEnter the array size: ");
     scanf("%d",&size);
-    printf("\nEnter elements: ");
-    for(i=0;i<size;i++)
-        scanf("%d",&a[i]);
+    INPUT(a,size);
     MERGE_SORT(a,0,size-1);
-    printf("\nAfter sorting: ");
-    for(i=0;i<size;i++)
-        printf("%d ",a[i]);
+    OUTPUT(a,size);
     return 0;
 }
 void MERGE_SORT(int a[],int p,int r)
@@ -52,4 +50,18 @@ void MERGE(int a[],int p,int q,int r)
             j++;
         }
     }
+}
+void INPUT(int a[],int size)
+{
+	int i;
+	printf("\nEnter elements: ");
+	for(i=0;i<size;i++)
+		scanf("%d",&a[i]);
+}
+void OUTPUT(int a[],int size)
+{
+	int i;
+	printf("\nAfter sorting: ");
+	for(i=0;i<size;i++)
+		printf("%d ",a[i]);
 }
