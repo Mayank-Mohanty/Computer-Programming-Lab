@@ -77,4 +77,3 @@ void OUTPUT(int a[],int size)
 		printf("%d ",a[i]);
 	printf("\n");
 }
-
