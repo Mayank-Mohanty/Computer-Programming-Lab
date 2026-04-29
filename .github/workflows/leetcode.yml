@@ -10,19 +10,28 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Fetch stats
+      - name: Fetch and process data
         run: |
           curl -s https://leetcode-stats-api.herokuapp.com/Mayank_Mohanty > data.json
 
-      - name: Create SVG (simple)
-        run: |
-          solved=$(jq .totalSolved data.json)
-          total=$(jq .totalQuestions data.json)
+          python3 <<EOF
+import json
 
-          echo "<svg xmlns='http://www.w3.org/2000/svg' width='300' height='100'>
-          <text x='10' y='50' fill='white' font-size='20'>
-          $solved / $total solved
-          </text></svg>" > assets/leetcode.svg
+with open("data.json") as f:
+    data = json.load(f)
+
+solved = data["totalSolved"]
+total = data["totalQuestions"]
+
+svg = f"""<svg xmlns='http://www.w3.org/2000/svg' width='300' height='100'>
+<text x='10' y='50' fill='white' font-size='20'>
+{solved} / {total} solved
+</text>
+</svg>"""
+
+with open("assets/leetcode.svg", "w") as f:
+    f.write(svg)
+EOF
 
       - name: Commit
         run: |
