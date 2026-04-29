@@ -1,0 +1,50 @@
+name: Update LeetCode SVG
+
+on:
+  schedule:
+    - cron: "0 */6 * * *"
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Fetch stats
+        run: |
+          curl https://leetcode-stats-api.herokuapp.com/Mayank_Mohanty > data.json
+
+      - name: Generate SVG
+        run: |
+          solved=$(jq .totalSolved data.json)
+          total=$(jq .totalQuestions data.json)
+
+          easy=$(jq .easySolved data.json)
+          med=$(jq .mediumSolved data.json)
+          hard=$(jq .hardSolved data.json)
+
+          TOTAL_LEN=502
+
+          easy_len=$(echo "$TOTAL_LEN * $easy / $solved" | bc -l)
+          med_len=$(echo "$TOTAL_LEN * $med / $solved" | bc -l)
+          hard_len=$(echo "$TOTAL_LEN * $hard / $solved" | bc -l)
+
+          offset_total=$(echo "$easy_len + $med_len" | bc -l)
+
+          sed "s/{{SOLVED}}/$solved/g;
+               s/{{TOTAL}}/$total/g;
+               s/{{EASY_LEN}}/$easy_len/g;
+               s/{{MED_LEN}}/$med_len/g;
+               s/{{HARD_LEN}}/$hard_len/g;
+               s/{{OFFSET_TOTAL}}/$offset_total/g;" \
+               assets/template.svg > assets/leetcode.svg
+
+      - name: Commit
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "actions@github.com"
+          git add .
+          git commit -m "update svg" || exit 0
+          git push
