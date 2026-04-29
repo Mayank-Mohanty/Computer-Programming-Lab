@@ -1,8 +1,6 @@
 name: Update LeetCode SVG
 
 on:
-  schedule:
-    - cron: "0 */6 * * *"
   workflow_dispatch:
 
 jobs:
@@ -14,32 +12,17 @@ jobs:
 
       - name: Fetch stats
         run: |
-          curl https://leetcode-stats-api.herokuapp.com/Mayank_Mohanty > data.json
+          curl -s https://leetcode-stats-api.herokuapp.com/Mayank_Mohanty > data.json
 
-      - name: Generate SVG
+      - name: Create SVG (simple)
         run: |
           solved=$(jq .totalSolved data.json)
           total=$(jq .totalQuestions data.json)
 
-          easy=$(jq .easySolved data.json)
-          med=$(jq .mediumSolved data.json)
-          hard=$(jq .hardSolved data.json)
-
-          TOTAL_LEN=502
-
-          easy_len=$(echo "$TOTAL_LEN * $easy / $solved" | bc -l)
-          med_len=$(echo "$TOTAL_LEN * $med / $solved" | bc -l)
-          hard_len=$(echo "$TOTAL_LEN * $hard / $solved" | bc -l)
-
-          offset_total=$(echo "$easy_len + $med_len" | bc -l)
-
-          sed "s/{{SOLVED}}/$solved/g;
-               s/{{TOTAL}}/$total/g;
-               s/{{EASY_LEN}}/$easy_len/g;
-               s/{{MED_LEN}}/$med_len/g;
-               s/{{HARD_LEN}}/$hard_len/g;
-               s/{{OFFSET_TOTAL}}/$offset_total/g;" \
-               assets/template.svg > assets/leetcode.svg
+          echo "<svg xmlns='http://www.w3.org/2000/svg' width='300' height='100'>
+          <text x='10' y='50' fill='white' font-size='20'>
+          $solved / $total solved
+          </text></svg>" > assets/leetcode.svg
 
       - name: Commit
         run: |
