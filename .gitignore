@@ -2,6 +2,9 @@
 *.exe
 *.out
 
+# Ignore Java compiled files
+*.class
+
 # Ignore object files
 *.o
 
