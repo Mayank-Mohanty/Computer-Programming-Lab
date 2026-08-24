@@ -1,4 +1,3 @@
-import java.lang.System;
 import java.util.*;
 class Time{
 		public static void main(String args[]){
@@ -8,7 +7,7 @@ class Time{
 		int h,m,s;
 		h=time/3600;
 		m=(time%3600)/60;
-		s=((time%3600)%60)/60;
-		System.out.println("OUTPUT: "+h+"Hour: "+m+"Minute: "+s+"Seconds");
+		s=time%60;
+		System.out.println("OUTPUT: "+h+" Hour: "+m+" Minute: "+s+" Seconds");
 	}
 }
