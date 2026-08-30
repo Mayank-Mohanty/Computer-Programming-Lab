@@ -14,7 +14,7 @@ void RandomsArray(int l,int u,int c)
                 A[i]=num;
         }
 }
-int InsertionSort(int c)
+void InsertionSort(int c)
 {
 	int i,j,key;
 	for (i=1;i<c;i++)
