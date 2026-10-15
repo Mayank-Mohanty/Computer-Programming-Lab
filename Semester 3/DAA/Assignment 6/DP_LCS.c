@@ -1,44 +1,93 @@
-/*WAP to solve LCS by Dynamic Programming
- Mayank Mohanty 18 D1*/
-#include<stdio.h>
-#include<string.h>
-void PRINT_LCS(char X[], char Y[], int L[][20], int m, int n, int len) {
-	char lcs[len + 1];
-	lcs[len] = '\0';
-	int i = m, j = n;
-	while ( i > 0 && j > 0) {
-		if (X[i - 1] == Y[j - 1]) {
-			lcs[len - 1] = X[i -1];
-			i--;
-			j--;
-			len--;
-		}
-		else if (L[i - 1][j] > L[i][j - 1]) i--;
-		else j--;
-	}
-	printf("LCS: %s\n", lcs);
+/*WAP to solve LCS by Dynamic Programming.
+ Mayank Mohanty 25BCSG88 18 D1*/
+#include <stdio.h>
+#include <string.h>
+#define MAX 1000
+int C[MAX][MAX];
+char B[MAX][MAX];
+int LCS_LENGTH(char X[], char Y[])
+{
+    int m = strlen(X + 1);
+    int n = strlen(Y + 1);
+    int i, j;
+    for (i = 1; i <= m; i++)
+        C[i][0] = 0;
+    for (j = 0; j <= n; j++)
+        C[0][j] = 0;
+    for (i = 1; i <= m; i++)
+    {
+        for (j = 1; j <= n; j++)
+        {
+            if (X[i] == Y[j])
+            {
+                C[i][j] = C[i - 1][j - 1] + 1;
+                B[i][j] = 'D';
+            }
+            else if (C[i - 1][j] >= C[i][j - 1])
+            {
+                C[i][j] = C[i - 1][j];
+                B[i][j] = 'U';
+            }
+            else
+            {
+                C[i][j] = C[i][j - 1];
+                B[i][j] = 'L';
+            }
+        }
+    }
+    return C[m][n];
 }
-void LCS_LENGTH(char X[], char Y[], int L[][20], int m, int n) {
-	for (int i = 0 ; i <= m ; i++) {
-		for (int j = 0 ; j <= n ; j++) {
-			if (i == 0 || j == 0) L[i][j] = 0;
-			else if (X[i - 1] == Y[j - 1])
-				L[i][j] = L[i - 1][j - 1] + 1;
-			else
-				L[i][j] = (L[i - 1][j] > L[i][j - 1]) ? L[i - 1][j] : L[i][j - 1];
-
-		}
-	}
-	printf("Length of LCS: %d\n", L[m][n]);
-	PRINT_LCS(X, Y, L, m, n, L[m][n]);
+void PRINT_LCS(char X[], int i, int j)
+{
+    if (i == 0 || j == 0)
+        return;
+    if (B[i][j] == 'D')
+    {
+        PRINT_LCS(X, i - 1, j - 1);
+        printf("%c", X[i]);
+    }
+    else if (B[i][j] == 'U')
+    {
+        PRINT_LCS(X, i - 1, j);
+    }
+    else
+    {
+        PRINT_LCS(X, i, j - 1);
+    }
 }
-void main() {
-	char X[20], Y[20];
-	int L[20][20];
-	printf("Enter the first string: ");
-	scanf("%[^\n]s", X);
-	printf("Enter the second string: ");
-	scanf(" %[^\n]s", Y);
-	LCS_LENGTH(X, Y, L, strlen(X), strlen(Y));
+int main()
+{
+    char X[MAX], Y[MAX];
+    int m, n, i, j, length;
+    printf("Enter the first string (X): ");
+    scanf("%s", X + 1);
+    printf("Enter the second string (Y): ");
+    scanf("%s", Y + 1);
+    m = strlen(X + 1);
+    n = strlen(Y + 1);
+    length = LCS_LENGTH(X, Y);
+    printf("\nLength of LCS = %d\n", length);
+    printf("Longest Common Subsequence = ");
+    PRINT_LCS(X, m, n);
+    printf("\n");
+    printf("\nC Matrix:\n");
+    for (i = 0; i <= m; i++)
+    {
+        for (j = 0; j <= n; j++)
+            printf("%d ", C[i][j]);
+        printf("\n");
+    }
+    printf("\nB Matrix:\n");
+    for (i = 0; i <= m; i++)
+    {
+        for (j = 0; j <= n; j++)
+        {
+            if (i == 0 || j == 0)
+                printf("%c ", '-');
+            else
+                printf("%c ", B[i][j]);
+        }
+        printf("\n");
+    }
+    return 0;
 }
-
