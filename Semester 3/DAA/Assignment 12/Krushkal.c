@@ -1,70 +1,78 @@
 #include <stdio.h>
-// Structure to hold edge details
+#define MAX 100
+// Structure to represent an edge (u, v) with weight w
 struct Edge {
-    int u, v, weight;
+    int u, v, w;
 };
-// FIND-SET: Recursively finds the root representative of the set
-int find(int parent[], int i) {
-    if (parent[i] == i) {
-        return i;
-    }
-    return find(parent, parent[i]);
+int parent[MAX]; // Array for Disjoint Set operations
+// MAKE-SET(v): Creates a singleton set for vertex v
+void MAKE_SET(int v) {
+    parent[v] = v;
 }
-// UNION: Connects two disjoint sets by making one root point to the other
-void union_set(int parent[], int u, int v) {
-    int root_u = find(parent, u);
-    int root_v = find(parent, v);
+// FIND-SET(v): Returns the representative (root) of the set containing v
+int FIND_SET(int v) {
+    while (parent[v] != v) {
+        v = parent[v];
+    }
+    return v;
+}
+// UNION(u, v): Merges the sets containing u and v
+void UNION(int u, int v) {
+    int root_u = FIND_SET(u);
+    int root_v = FIND_SET(v);
     parent[root_u] = root_v;
 }
+// Step 4: Sort edges of E in increasing order of weight w (Bubble Sort)
+void sortEdges(struct Edge E[], int m) {
+    struct Edge temp;
+    for (int i = 0; i < m - 1; i++) {
+        for (int j = 0; j < m - i - 1; j++) {
+            if (E[j].w > E[j + 1].w) {
+                temp = E[j];
+                E[j] = E[j + 1];
+                E[j + 1] = temp;
+            }
+        }
+    }
+}
+// MST-KRUSHKAL(G, w) implementation
+void MST_KRUSKAL(struct Edge E[], int V, int m) {
+    struct Edge A[MAX]; // Step 1: A <- empty set
+    int edge_count = 0;
+    int total_cost = 0;
+    // Steps 2-3: for each vertex v in V[G], MAKE-SET(v)
+    for (int v = 1; v <= V; v++) {
+        MAKE_SET(v);
+    }
+    // Step 4: Sort the edges of E in increasing order of weight w
+    sortEdges(E, m);
+    // Step 5: for each edge (u, v) in E[G] taken in increasing order
+    for (int i = 0; i < m; i++) {
+        int u = E[i].u;
+        int v = E[i].v;
+        // Step 6: if FIND-SET(u) != FIND-SET(v)
+        if (FIND_SET(u) != FIND_SET(v)) {
+            A[edge_count++] = E[i]; // Step 7: A <- A U {(u, v)}
+            UNION(u, v);            // Step 8: UNION(u, v)
+        }
+    }
+    // Step 9: Return / Display A
+    printf("\nEdges in Minimum Spanning Tree (Kruskal's):\n");
+    for (int i = 0; i < edge_count; i++) {
+        printf("(%d, %d) -> weight: %d\n", A[i].u, A[i].v, A[i].w);
+        total_cost += A[i].w;
+    }
+    printf("Total MST Weight: %d\n", total_cost);
+}
 int main() {
-    int V, E;   
-    // Take user input for vertices and edges
-    printf("Enter the number of vertices: ");
-    scanf("%d", &V);
-    printf("Enter the number of edges: ");
-    scanf("%d", &E);
-    struct Edge edges[E];
-    int parent[V];
-    printf("Enter edges in format (source destination weight):\n");
-    for (int i = 0; i < E; i++) {
-        printf("Edge %d: ", i + 1);
-        scanf("%d %d %d", &edges[i].u, &edges[i].v, &edges[i].weight);
+    int V, m;
+    struct Edge E[MAX];
+    printf("Enter number of vertices and edges: ");
+    scanf("%d %d", &V, &m);
+    printf("Enter edges (u v weight):\n");
+    for (int i = 0; i < m; i++) {
+        scanf("%d %d %d", &E[i].u, &E[i].v, &E[i].w);
     }
-    // Step 1: Sort edges by weight in nondecreasing order using Bubble Sort
-    for (int i = 0; i < E - 1; i++) {
-        for (int j = 0; j < E - i - 1; j++) {
-            if (edges[j].weight > edges[j + 1].weight) {
-                struct Edge temp = edges[j];
-                edges[j] = edges[j + 1];
-                edges[j + 1] = temp;
-            }
-        }
-    }
-    // Step 2: MAKE-SET for each vertex (every vertex is its own parent initially)
-    for (int i = 0; i < V; i++) {
-        parent[i] = i;
-    }
-    printf("\nEdges added to the Minimum Spanning Tree (A):\n");
-    int minCost = 0;
-    int edgeCount = 0;
-    // Step 3: Iterate through sorted edges and apply Kruskal's logic
-    for (int i = 0; i < E; i++) {
-        int u = edges[i].u;
-        int v = edges[i].v;
-        // If FIND-SET(u) != FIND-SET(v), it's a safe edge (no cycle)
-        if (find(parent, u) != find(parent, v)) {
-            printf("Vertex %d -- Vertex %d == Weight: %d\n", u, v, edges[i].weight);
-            minCost += edges[i].weight;
-            // UNION(u, v)
-            union_set(parent, u, v);
-            edgeCount++;
-            // A minimum spanning tree has exactly V-1 edges; stop early if reached
-            if (edgeCount == V - 1) {
-                break;
-            }
-        }
-    }
-    printf("\nTotal Cost of Minimum Spanning Tree: %d\n", minCost);
+    MST_KRUSKAL(E, V, m);
     return 0;
 }
-
