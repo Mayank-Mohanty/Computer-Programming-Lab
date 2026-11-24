@@ -16,3 +16,7 @@
 
 # Ignore compiled binaries in 'bin' folder
 /bin/
+
+#ignore folders
+Semester 3/OOPS Using JAVA/Assignment 11/lib/
+Semester 3/OOPS Using JAVA/Assignment 11/PostgreSQL/
