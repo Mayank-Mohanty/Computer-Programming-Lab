@@ -1,3 +1,4 @@
+//WAP to establish a database connection, insert two records into the student table using statement interface and prepared statement interface and then display it.
 import java.sql.*;
 import java.util.Scanner;
 public class InsertData {
